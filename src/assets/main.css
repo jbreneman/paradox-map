@@ -1,0 +1,12 @@
+@import './vars.css';
+@import './base.css';
+
+#app {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (hover: hover) {
+}
