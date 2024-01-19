@@ -39,8 +39,8 @@ const createConnection = () => {
 .connection {
   position: absolute;
   z-index: 1;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   appearance: none;
   border-radius: 4px;
   background-color: white;
@@ -51,6 +51,16 @@ const createConnection = () => {
   align-items: center;
   cursor: pointer;
   transition: transform 0.24s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -25%;
+    top: -25%;
+    width: 150%;
+    height: 150%;
+    z-index: -1;
+  }
 
   &:hover {
     transform: scale(1.2);
@@ -78,8 +88,8 @@ const createConnection = () => {
 }
 
 .icon {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
 
   &.east {
     transform: rotate(90deg);

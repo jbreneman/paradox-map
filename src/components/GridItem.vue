@@ -12,7 +12,13 @@
       v-for="direction in directions"
       :key="direction"
     />
-    <button class="grid-item empty" v-if="!item" @click="addRoom" aria-label="Create room"></button>
+    <button
+      class="grid-item empty"
+      :class="classes"
+      v-if="!item"
+      @click="addRoom"
+      aria-label="Create room"
+    ></button>
     <button v-else class="grid-item" :class="classes" @click="setActive">
       <span class="room-name" v-if="name">
         {{ name }}
@@ -26,7 +32,14 @@
 
 <script setup>
 import { computed } from 'vue'
-import { ROOM_LABELS, ROOM_TYPES, GOD_LABELS, createRoom } from '@/util/room'
+import {
+  ROOM_LABELS,
+  ROOM_TYPES,
+  GOD_LABELS,
+  OMEGA_ROOMS,
+  CHALLENGE_ROOMS,
+  createRoom
+} from '@/util/room'
 import ConnectionButton from '@/components/GridItem/ConnectionButton.vue'
 import ConnectionTunnel from '@/components/GridItem/ConnectionTunnel.vue'
 import { useEditingStore } from '@/stores/editing'
@@ -56,9 +69,16 @@ const isActive = computed(() => {
 
 const classes = computed(() => {
   const style = props.item?.style
+  const omega = OMEGA_ROOMS.includes(props.item?.type)
+  const challenge = CHALLENGE_ROOMS.includes(props.item?.type)
   return [
     style,
-    { 'is-active': isActive.value, 'not-purchased': props.item?.purchased === false }
+    {
+      'is-active': isActive.value,
+      'not-purchased': props.item?.purchased === false,
+      omega,
+      challenge
+    }
   ].filter(Boolean)
 })
 
@@ -100,6 +120,7 @@ const addRoom = () => {
 }
 
 .grid-item {
+  --shadow: 0 0 0 transparent;
   --color: black;
   appearance: none;
   border: 0;
@@ -111,7 +132,9 @@ const addRoom = () => {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 0 0 0 rgb(0 0 0 / 0.25);
+  box-shadow:
+    var(--shadow),
+    0 0 0 0 rgb(0 0 0 / 0.25);
   transition: box-shadow 0.24s ease;
   border: 4px solid #dddddd;
   background: #eeeeee;
@@ -119,7 +142,9 @@ const addRoom = () => {
 }
 
 .is-active {
-  box-shadow: 0 0 0 4px rgb(0 0 0 / 0.25);
+  box-shadow:
+    var(--shadow),
+    0 0 0 4px rgb(0 0 0 / 0.25);
 }
 
 .room-name {
@@ -186,6 +211,14 @@ const addRoom = () => {
   height: calc(100% - 8px);
   background: white;
   border-radius: 2px;
+}
+
+.omega {
+  --shadow: 0 0 3px 2px var(--omega);
+}
+
+.challenge {
+  --shadow: 0 0 3px 2px var(--challenge);
 }
 
 .idona,

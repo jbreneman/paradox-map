@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { createRoom } from '@/util/room'
+import { createRoom, ROOM_TYPES } from '@/util/room'
 import type { Room, Direction } from '@/util/room'
 import {
   createGrid,
@@ -42,6 +42,7 @@ export const useGridStore = defineStore('grid', {
           }
         : createRoom({
             purchased: true,
+            type: ROOM_TYPES.COMMON,
             connections: [{ id: item.id, direction: getInverseDirection(direction) }]
           })
 

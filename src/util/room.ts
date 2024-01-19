@@ -54,6 +54,26 @@ export const ROOM_LABELS = {
   [ROOM_TYPES.PORTAL]: 'Portal'
 } as const
 
+export const OMEGA_ROOMS = [
+  ROOM_TYPES.BLACKSMITH,
+  ROOM_TYPES.COVE,
+  ROOM_TYPES.LIBRARY,
+  ROOM_TYPES.MINE,
+  ROOM_TYPES.MUSH_ROOM,
+  ROOM_TYPES.PAINTING,
+  ROOM_TYPES.VENDOR,
+  ROOM_TYPES.DIGSITE
+]
+
+export const CHALLENGE_ROOMS = [
+  ROOM_TYPES.CRYSTAL_CAVES,
+  ROOM_TYPES.DRAGON,
+  ROOM_TYPES.X_MARK,
+  ROOM_TYPES.WILD_WEST,
+  ROOM_TYPES.FACTORY,
+  ROOM_TYPES.VILLAGE
+]
+
 export type Direction = 'north' | 'south' | 'east' | 'west'
 export interface Room {
   id: string
