@@ -1,6 +1,6 @@
 <template>
   <header class="app-header">
-    <h1 class="logo">ParadoxMap</h1>
+    <h1 class="logo">P<span class="letters">aradox</span>M<span class="letters">ap</span></h1>
     <VaultName />
     <VaultMenu />
   </header>
@@ -114,5 +114,11 @@ import VaultMenu from '@/components/layout/VaultMenu.vue'
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
   animation: move-background 20s linear infinite;
+}
+
+@media screen and (max-width: 500px) {
+  .letters {
+    display: none;
+  }
 }
 </style>
