@@ -20,8 +20,14 @@
         <Checkmark class="menu-checkmark" v-if="item.active" />
       </MenuItem>
       <hr class="menu-divider" />
-      <MenuItem as="button" class="menu-item" @click="about"> About </MenuItem>
-      <MenuItem as="a" class="menu-item" href="#">View on Github </MenuItem>
+      <!--<MenuItem as="button" class="menu-item" @click="about"> About </MenuItem>-->
+      <MenuItem
+        as="a"
+        target="_blank"
+        class="menu-item"
+        href="https://github.com/jbreneman/paradox-map"
+        >View on Github
+      </MenuItem>
     </MenuItems>
   </Menu>
 </template>
