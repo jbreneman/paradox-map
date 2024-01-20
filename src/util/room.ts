@@ -29,6 +29,7 @@ export const ROOM_TYPES = {
   WILD_WEST: 'wild_west',
   FACTORY: 'factory',
   VILLAGE: 'village',
+  ORE: 'ore',
   COMMON: 'common',
   PORTAL: 'portal'
 } as const
@@ -48,6 +49,7 @@ export const ROOM_LABELS = {
   [ROOM_TYPES.WILD_WEST]: 'Wild West',
   [ROOM_TYPES.FACTORY]: 'Factory',
   [ROOM_TYPES.VILLAGE]: 'Village',
+  [ROOM_TYPES.ORE]: 'Ore',
   [ROOM_TYPES.COMMON]: 'Common',
   [ROOM_TYPES.PORTAL]: 'Portal'
 } as const
