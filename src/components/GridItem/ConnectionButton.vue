@@ -67,22 +67,22 @@ const createConnection = () => {
   }
 
   &.north {
-    top: -20px;
+    top: -18px;
     left: calc(50% - 16px);
   }
 
   &.south {
-    bottom: -20px;
+    bottom: -18px;
     left: calc(50% - 16px);
   }
 
   &.east {
-    right: -20px;
+    right: -18px;
     top: calc(50% - 16px);
   }
 
   &.west {
-    left: -20px;
+    left: -18px;
     top: calc(50% - 16px);
   }
 }

@@ -1,6 +1,4 @@
-import { customAlphabet } from 'nanoid'
-const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-const nanoid = customAlphabet(alphabet, 16)
+import { id } from './id'
 
 export const GODS = {
   IDONA: 'idona',
@@ -90,7 +88,7 @@ const defaultRoom = {
 
 export const createRoom = (data: Partial<Room>) => {
   return {
-    id: nanoid(),
+    id: id(),
     ...defaultRoom,
     ...data
   } as Room

@@ -1,6 +1,6 @@
 <template>
   <transition name="edit">
-    <div class="edit-item" v-if="store.room">
+    <section class="edit-item" v-if="store.room">
       <button class="close-button" aria-label="Close" @click="close">
         <Close class="close-icon" />
       </button>
@@ -37,16 +37,21 @@
           </select>
         </label>
       </div>
-    </div>
+      <footer class="footer">
+        <button class="remove" @click="remove">Delete</button>
+      </footer>
+    </section>
   </transition>
 </template>
 
 <script setup>
 import { useEditingStore } from '@/stores/editing'
+import { useGridStore } from '@/stores/grid'
 import Close from '@/components/icons/Close.vue'
 import { ROOM_LABELS, ROOM_TYPES, GODS, GOD_LABELS } from '@/util/room'
 
 const store = useEditingStore()
+const grid = useGridStore()
 
 const close = () => {
   store.setRoom(null)
@@ -77,6 +82,11 @@ const styles = Object.values(GODS)
 
 const updateStyle = (e) => {
   store.modifyRoom({ style: e.target.value })
+}
+
+const remove = () => {
+  grid.removeRoom(store.room.id)
+  store.setRoom(null)
 }
 </script>
 
@@ -157,5 +167,23 @@ const updateStyle = (e) => {
   padding: var(--spacing-200);
   border: 2px solid #000;
   border-radius: 4px;
+}
+
+.footer {
+  display: flex;
+  margin-top: var(--spacing-300);
+}
+
+.remove {
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  appearance: none;
+  color: white;
+  background: #cc0303;
+  border: 2px solid rgb(255 255 255 / 0.6);
+  padding: var(--spacing-100) var(--spacing-200);
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 </style>

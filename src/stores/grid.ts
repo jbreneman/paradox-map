@@ -6,24 +6,45 @@ import {
   placeItem,
   updateItem,
   getInverseDirection,
-  getAdjacentItem
+  getAdjacentItem,
+  removeItem
 } from '@/util/grid'
 import type { Grid } from '@/util/grid'
+import { id } from '@/util/id'
 import { useEditingStore } from './editing'
+import type { Vault } from './vaults'
+import { getCurrentVault } from '@/util/save'
 
 export const useGridStore = defineStore('grid', {
   state: () => {
     return {
-      grid: null as Grid | null
+      grid: null as Grid | null,
+      name: 'My vault',
+      id: null as string | null
     }
   },
   actions: {
     init() {
+      const saved = getCurrentVault()
+      if (saved) {
+        this.setGrid(saved)
+      } else {
+        this.createGrid()
+      }
+    },
+    createGrid() {
       const grid = createGrid()
       this.grid = placeItem(grid, createRoom({ style: 'portal', type: 'portal' }), {
         x: 13,
         y: 13
       })
+      this.id = id()
+      this.name = 'My vault'
+    },
+    setGrid(vault: Vault) {
+      this.grid = vault.grid
+      this.id = vault.id
+      this.name = vault.name
     },
     createConnection({ item, direction }: { item: Room; direction: Direction }) {
       if (!this.grid) {
@@ -55,7 +76,27 @@ export const useGridStore = defineStore('grid', {
         anchor: fromRoom
       })
 
-      editing.setRoom(toRoom)
+      if (toRoom.style !== 'portal') {
+        editing.setRoom(toRoom)
+      }
+    },
+    removeConnection({ item, direction }: { item: Room; direction: Direction }) {
+      if (!this.grid) {
+        return
+      }
+
+      const adjacent = getAdjacentItem(this.grid, item, direction) as Room
+      const toRoom = {
+        ...adjacent,
+        connections: adjacent.connections?.filter((connection) => connection.id !== item.id)
+      }
+
+      const fromRoom = {
+        ...item,
+        connections: item.connections?.filter((connection) => connection.id !== toRoom.id)
+      }
+      const updatedGrid = updateItem(this.grid, fromRoom)
+      this.grid = updateItem(updatedGrid, toRoom)
     },
     updateRoom(item: Room) {
       if (!this.grid) {
@@ -74,6 +115,16 @@ export const useGridStore = defineStore('grid', {
       })
 
       editing.setRoom(item)
+    },
+    removeRoom(id: string) {
+      if (!this.grid) {
+        return
+      }
+
+      this.grid = removeItem(this.grid, id)
+    },
+    setName(name: string) {
+      this.name = name
     }
   }
 })

@@ -161,11 +161,13 @@ const addRoom = () => {
   font-weight: 700;
 }
 
-.empty {
+.empty,
+.none {
   border: none;
+  opacity: 1;
 }
 
-.not-purchased {
+.not-purchased:not(.none) {
   opacity: 0.5;
 }
 

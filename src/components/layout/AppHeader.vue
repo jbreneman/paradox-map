@@ -1,14 +1,23 @@
 <template>
   <header class="app-header">
     <h1 class="logo">ParadoxMap</h1>
+    <VaultName />
+    <VaultMenu />
   </header>
 </template>
+
+<script setup>
+import VaultName from '@/components/layout/VaultName.vue'
+import VaultMenu from '@/components/layout/VaultMenu.vue'
+</script>
 
 <style scoped>
 .app-header {
   width: 100%;
   padding: var(--spacing-300) var(--spacing-400);
   border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  display: flex;
+  justify-content: space-between;
 }
 
 @keyframes move-background {

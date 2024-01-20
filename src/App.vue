@@ -3,10 +3,13 @@ import AppHeader from '@/components/layout/AppHeader.vue'
 import AppGrid from '@/components/AppGrid.vue'
 import EditItem from '@/components/EditItem.vue'
 import { useGridStore } from '@/stores/grid'
+import { useVaultsStore } from '@/stores/vaults'
 
 const grid = useGridStore()
+const vaults = useVaultsStore()
 
 grid.init()
+vaults.init()
 </script>
 
 <template>

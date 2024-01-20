@@ -108,6 +108,25 @@ export const updateItem = (grid: Grid, item: Room) => {
   })
 }
 
+export const removeItem = (grid: Grid, id: string) => {
+  return grid.map((row) => {
+    return row.map((cell) => {
+      if (cell?.id === id) {
+        return null
+      }
+
+      if (cell?.connections) {
+        return {
+          ...cell,
+          connections: cell.connections.filter((connection) => connection.id !== id)
+        }
+      }
+
+      return cell
+    })
+  })
+}
+
 export const getInverseDirection = (direction: Direction) => {
   const map = {
     south: 'north',
