@@ -33,6 +33,9 @@ export const useVaultsStore = defineStore('vaults', {
     },
     getVault(id: string) {
       return this.vaults.find((vault) => vault.id === id)
+    },
+    deleteVault(id: string) {
+      this.vaults = this.vaults.filter(vault=>vault.id!==id)
     }
   }
 })

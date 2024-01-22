@@ -17,7 +17,8 @@
         @click="() => loadMap(item.id)"
       >
         {{ item.label }}
-        <Checkmark class="menu-checkmark" v-if="item.active" />
+        <Checkmark class="menu-icon" v-if="item.active" />
+        <Close  class="menu-icon menu-delete" @click.stop="()=>deleteMap(item.id)" v-else/>
       </MenuItem>
       <hr class="menu-divider" />
       <!--<MenuItem as="button" class="menu-item" @click="about"> About </MenuItem>-->
@@ -37,6 +38,7 @@ import { computed } from 'vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import ChevronDown from '@/components/icons/ChevronDown.vue'
 import Checkmark from '@/components/icons/Checkmark.vue'
+import Close from '@/components/icons/Close.vue'
 import { useVaultsStore } from '@/stores/vaults'
 import { useGridStore } from '@/stores/grid'
 
@@ -77,6 +79,10 @@ const loadMap = (id) => {
     grid: grid.grid
   })
   grid.setGrid(vault)
+}
+
+const deleteMap = (id) => {
+  store.deleteVault(id)
 }
 
 const about = () => {}
@@ -145,10 +151,18 @@ const about = () => {}
   }
 }
 
-.menu-checkmark {
+.menu-icon {
   width: 16px;
   height: 16px;
   margin-left: auto;
+}
+.menu-delete {
+  fill: red;
+  border-radius: 2px;
+  padding: 2px;
+}
+.menu-delete:hover {
+  background: white;
 }
 
 .menu-divider {
