@@ -7,18 +7,19 @@
     <MenuItems class="menu-items">
       <MenuItem as="button" class="menu-item" @click="newMap"> Create new map </MenuItem>
       <hr class="menu-divider" v-if="items?.length" />
-      <MenuItem
-        v-for="item in items"
-        :key="item.id"
-        as="button"
-        class="menu-item"
-        :class="{ 'is-active': item.active }"
-        :disabled="item.active"
-        @click="() => loadMap(item.id)"
-      >
-        {{ item.label }}
-        <Checkmark class="menu-icon" v-if="item.active" />
-        <Close  class="menu-icon menu-delete" @click.stop="()=>deleteMap(item.id)" v-else/>
+      <MenuItem v-for="item in items" :key="item.id" as="div" class="menu-option">
+        <button
+          class="menu-item"
+          :class="{ 'is-active': item.active }"
+          :disabled="item.active"
+          @click="() => loadMap(item.id)"
+        >
+          <span>{{ item.label }}</span>
+          <Checkmark class="menu-icon" v-if="item.active" />
+        </button>
+        <button v-if="!item.active" @click="() => deleteMap(item.id)" aria-label="Remove vault">
+          <Close class="menu-icon menu-delete" />
+        </button>
       </MenuItem>
       <hr class="menu-divider" />
       <!--<MenuItem as="button" class="menu-item" @click="about"> About </MenuItem>-->
@@ -106,6 +107,21 @@ const about = () => {}
   cursor: pointer;
 }
 
+.menu-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  button {
+    background: transparent;
+    border: none;
+  }
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
 .menu-items {
   position: absolute;
   z-index: 10;
@@ -160,9 +176,11 @@ const about = () => {}
   fill: red;
   border-radius: 2px;
   padding: 2px;
-}
-.menu-delete:hover {
-  background: white;
+  cursor: pointer;
+
+  &:hover {
+    fill: white;
+  }
 }
 
 .menu-divider {
