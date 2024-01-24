@@ -7,17 +7,19 @@
     <MenuItems class="menu-items">
       <MenuItem as="button" class="menu-item" @click="newMap"> Create new map </MenuItem>
       <hr class="menu-divider" v-if="items?.length" />
-      <MenuItem
-        v-for="item in items"
-        :key="item.id"
-        as="button"
-        class="menu-item"
-        :class="{ 'is-active': item.active }"
-        :disabled="item.active"
-        @click="() => loadMap(item.id)"
-      >
-        {{ item.label }}
-        <Checkmark class="menu-checkmark" v-if="item.active" />
+      <MenuItem v-for="item in items" :key="item.id" as="div" class="menu-option">
+        <button
+          class="menu-item"
+          :class="{ 'is-active': item.active }"
+          :disabled="item.active"
+          @click="() => loadMap(item.id)"
+        >
+          <span>{{ item.label }}</span>
+          <Checkmark class="menu-icon" v-if="item.active" />
+        </button>
+        <button v-if="!item.active" @click="() => deleteMap(item.id)" aria-label="Remove vault">
+          <Close class="menu-icon menu-delete" />
+        </button>
       </MenuItem>
       <hr class="menu-divider" />
       <!--<MenuItem as="button" class="menu-item" @click="about"> About </MenuItem>-->
@@ -37,6 +39,7 @@ import { computed } from 'vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import ChevronDown from '@/components/icons/ChevronDown.vue'
 import Checkmark from '@/components/icons/Checkmark.vue'
+import Close from '@/components/icons/Close.vue'
 import { useVaultsStore } from '@/stores/vaults'
 import { useGridStore } from '@/stores/grid'
 
@@ -79,6 +82,10 @@ const loadMap = (id) => {
   grid.setGrid(vault)
 }
 
+const deleteMap = (id) => {
+  store.deleteVault(id)
+}
+
 const about = () => {}
 </script>
 
@@ -98,6 +105,21 @@ const about = () => {}
   padding: var(--spacing-100) var(--spacing-200);
   font-size: 0.875rem;
   cursor: pointer;
+}
+
+.menu-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  button {
+    background: transparent;
+    border: none;
+  }
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 }
 
 .menu-items {
@@ -145,10 +167,20 @@ const about = () => {}
   }
 }
 
-.menu-checkmark {
+.menu-icon {
   width: 16px;
   height: 16px;
   margin-left: auto;
+}
+.menu-delete {
+  fill: red;
+  border-radius: 2px;
+  padding: 2px;
+  cursor: pointer;
+
+  &:hover {
+    fill: white;
+  }
 }
 
 .menu-divider {
