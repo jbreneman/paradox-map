@@ -3,6 +3,8 @@ import type { Room } from '@/util/room'
 import deepmerge from 'deepmerge'
 import { useGridStore } from './grid'
 
+const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray
+
 export const useEditingStore = defineStore('editing', {
   state: () => {
     return {
@@ -15,7 +17,7 @@ export const useEditingStore = defineStore('editing', {
     },
     modifyRoom(room: Partial<Room>) {
       const grid = useGridStore()
-      this.room = deepmerge(this.room ?? {}, room)
+      this.room = deepmerge(this.room ?? {}, room, { arrayMerge: overwriteMerge })
       grid.updateRoom(this.room)
     }
   }

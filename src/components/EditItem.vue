@@ -37,8 +37,15 @@
           </select>
         </label>
       </div>
-      <footer class="footer">
+      <RoomModifiers
+        class="modifiers divider"
+        :room-type="store.room?.type"
+        :modifiers="store.room?.modifiers ?? [{ type: '', amount: 1 }]"
+        @update="updateModifiers"
+      />
+      <footer class="footer divider">
         <button class="remove" @click="remove">Delete</button>
+        <BaseButton class="done" @click="close">Done</BaseButton>
       </footer>
     </section>
   </transition>
@@ -48,6 +55,8 @@
 import { useEditingStore } from '@/stores/editing'
 import { useGridStore } from '@/stores/grid'
 import Close from '@/components/icons/Close.vue'
+import RoomModifiers from '@/components/EditItem/RoomModifiers.vue'
+import BaseButton from '@/components/base/BaseButton.vue'
 import { ROOM_LABELS, ROOM_TYPES, GODS, GOD_LABELS } from '@/util/room'
 
 const store = useEditingStore()
@@ -87,6 +96,11 @@ const updateStyle = (e) => {
 const remove = () => {
   grid.removeRoom(store.room.id)
   store.setRoom(null)
+}
+
+const updateModifiers = (value) => {
+  console.log(value)
+  store.modifyRoom({ modifiers: value })
 }
 </script>
 
@@ -169,9 +183,25 @@ const remove = () => {
   border-radius: 4px;
 }
 
+.divider {
+  position: relative;
+  margin-top: var(--spacing-300);
+  padding-top: var(--spacing-400);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(var(--spacing-400) * -1);
+    width: calc(100% + (var(--spacing-400) * 2));
+    height: 1px;
+    background-color: rgb(0 0 0 / 0.1);
+  }
+}
+
 .footer {
   display: flex;
-  margin-top: var(--spacing-300);
+  justify-content: space-between;
 }
 
 .remove {

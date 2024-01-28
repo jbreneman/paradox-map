@@ -1,4 +1,5 @@
 import { id } from './id'
+import type { Modifier } from './modifiers'
 
 export const GODS = {
   IDONA: 'idona',
@@ -79,9 +80,10 @@ export interface Room {
   id: string
   style: 'none' | 'portal' | 'idona' | 'tenos' | 'velara' | 'wendarr'
   type?: (typeof ROOM_TYPES)[keyof typeof ROOM_TYPES]
-  label?: string
+  label?: (typeof ROOM_LABELS)[keyof typeof ROOM_LABELS]
   purchased?: boolean
   connections?: { id: string; direction: Direction }[]
+  modifiers?: Modifier[]
 }
 
 const defaultRoom = {
