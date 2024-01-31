@@ -26,6 +26,9 @@
       <span class="god-name" v-if="god">
         {{ god }}
       </span>
+      <span class="modifiers" v-if="modifiers">
+        <ModifierIcon :name="modifier.type" v-for="(modifier, index) in modifiers" :key="index" />
+      </span>
     </button>
   </div>
 </template>
@@ -41,6 +44,7 @@ import {
   createRoom
 } from '@/util/room'
 import ConnectionButton from '@/components/GridItem/ConnectionButton.vue'
+import ModifierIcon from '@/components/GridItem/ModifierIcon.vue'
 import ConnectionTunnel from '@/components/GridItem/ConnectionTunnel.vue'
 import { useEditingStore } from '@/stores/editing'
 import { useGridStore } from '@/stores/grid'
@@ -106,6 +110,10 @@ const god = computed(() => {
 const addRoom = () => {
   grid.setRoom(createRoom({ purchased: false }), props.x, props.y)
 }
+
+const modifiers = computed(() => {
+  return props.item?.modifiers ?? null
+})
 </script>
 
 <style scoped>
@@ -159,6 +167,10 @@ const addRoom = () => {
   font-size: 0.875rem;
   color: var(--color);
   font-weight: 700;
+}
+
+.modifiers {
+  display: flex;
 }
 
 .empty,
