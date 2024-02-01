@@ -52,10 +52,14 @@ export const useGridStore = defineStore('grid', {
       }
       const editing = useEditingStore()
       const existing = getAdjacentItem(this.grid, item, direction)
+      const inverseDirection = getInverseDirection(direction)
       const toRoom = existing
         ? {
             ...existing,
             purchased: true,
+            ...(existing.potentialModifiers?.[inverseDirection] && !existing.purchased
+              ? { modifiers: existing.potentialModifiers?.[inverseDirection] }
+              : {}),
             connections: [
               ...(existing.connections ?? []),
               { id: item.id, direction: getInverseDirection(direction) }
@@ -86,14 +90,20 @@ export const useGridStore = defineStore('grid', {
       }
 
       const adjacent = getAdjacentItem(this.grid, item, direction) as Room
+      const adjacentConnections = adjacent.connections?.filter(
+        (connection) => connection.id !== item.id
+      )
       const toRoom = {
         ...adjacent,
-        connections: adjacent.connections?.filter((connection) => connection.id !== item.id)
+        purchased: !!adjacentConnections?.length,
+        connections: adjacentConnections
       }
 
+      const fromConnections = item.connections?.filter((connection) => connection.id !== toRoom.id)
       const fromRoom = {
         ...item,
-        connections: item.connections?.filter((connection) => connection.id !== toRoom.id)
+        purchased: !!fromConnections?.length,
+        connections: fromConnections
       }
       const updatedGrid = updateItem(this.grid, fromRoom)
       this.grid = updateItem(updatedGrid, toRoom)

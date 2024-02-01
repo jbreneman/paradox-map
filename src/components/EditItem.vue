@@ -39,8 +39,10 @@
       </div>
       <RoomModifiers
         class="modifiers divider"
+        :purchased="store.room?.purchased"
         :room-type="store.room?.type"
-        :modifiers="store.room?.modifiers ?? [{ type: '', amount: 1 }]"
+        :modifiers="store.room?.modifiers ?? newModifier"
+        :potential-modifiers="store.room?.potentialModifiers ?? newPotentialModifiers"
         @update="updateModifiers"
       />
       <footer class="footer divider">
@@ -61,6 +63,13 @@ import { ROOM_LABELS, ROOM_TYPES, GODS, GOD_LABELS } from '@/util/room'
 
 const store = useEditingStore()
 const grid = useGridStore()
+const newModifier = [{ type: '', amount: 1 }]
+const newPotentialModifiers = {
+  north: newModifier,
+  east: newModifier,
+  south: newModifier,
+  west: newModifier
+}
 
 const close = () => {
   store.setRoom(null)
@@ -99,8 +108,7 @@ const remove = () => {
 }
 
 const updateModifiers = (value) => {
-  console.log(value)
-  store.modifyRoom({ modifiers: value })
+  store.modifyRoom(value)
 }
 </script>
 

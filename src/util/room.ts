@@ -84,6 +84,12 @@ export interface Room {
   purchased?: boolean
   connections?: { id: string; direction: Direction }[]
   modifiers?: Modifier[]
+  potentialModifiers?: {
+    north?: Modifier[]
+    east?: Modifier[]
+    south?: Modifier[]
+    west?: Modifier[]
+  }
 }
 
 const defaultRoom = {

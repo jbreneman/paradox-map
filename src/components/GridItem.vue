@@ -12,6 +12,12 @@
       v-for="direction in directions"
       :key="direction"
     />
+    <ConnectionModifiers
+      :item="item"
+      :direction="direction"
+      v-for="direction in directions"
+      :key="direction"
+    />
     <button
       class="grid-item empty"
       :class="classes"
@@ -20,13 +26,13 @@
       aria-label="Create room"
     ></button>
     <button v-else class="grid-item" :class="classes" @click="setActive">
-      <span class="room-name" v-if="name">
-        {{ name }}
-      </span>
       <span class="god-name" v-if="god">
         {{ god }}
       </span>
-      <span class="modifiers" v-if="modifiers">
+      <span class="room-name" v-if="name">
+        {{ name }}
+      </span>
+      <span class="modifiers" v-if="item.purchased && modifiers">
         <ModifierIcon :name="modifier.type" v-for="(modifier, index) in modifiers" :key="index" />
       </span>
     </button>
@@ -46,6 +52,7 @@ import {
 import ConnectionButton from '@/components/GridItem/ConnectionButton.vue'
 import ModifierIcon from '@/components/GridItem/ModifierIcon.vue'
 import ConnectionTunnel from '@/components/GridItem/ConnectionTunnel.vue'
+import ConnectionModifiers from '@/components/GridItem/ConnectionModifiers.vue'
 import { useEditingStore } from '@/stores/editing'
 import { useGridStore } from '@/stores/grid'
 
@@ -162,8 +169,6 @@ const modifiers = computed(() => {
 }
 
 .god-name {
-  position: absolute;
-  bottom: var(--spacing-300);
   font-size: 0.875rem;
   color: var(--color);
   font-weight: 700;
