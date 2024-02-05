@@ -12,6 +12,12 @@
       v-for="direction in directions"
       :key="direction"
     />
+    <ConnectionModifiers
+      :item="item"
+      :direction="direction"
+      v-for="direction in directions"
+      :key="direction"
+    />
     <button
       class="grid-item empty"
       :class="classes"
@@ -20,11 +26,14 @@
       aria-label="Create room"
     ></button>
     <button v-else class="grid-item" :class="classes" @click="setActive">
+      <span class="god-name" v-if="god">
+        {{ god }}
+      </span>
       <span class="room-name" v-if="name">
         {{ name }}
       </span>
-      <span class="god-name" v-if="god">
-        {{ god }}
+      <span class="modifiers" v-if="item.purchased && modifiers">
+        <ModifierIcon :name="modifier.type" v-for="(modifier, index) in modifiers" :key="index" />
       </span>
     </button>
   </div>
@@ -41,7 +50,9 @@ import {
   createRoom
 } from '@/util/room'
 import ConnectionButton from '@/components/GridItem/ConnectionButton.vue'
+import ModifierIcon from '@/components/GridItem/ModifierIcon.vue'
 import ConnectionTunnel from '@/components/GridItem/ConnectionTunnel.vue'
+import ConnectionModifiers from '@/components/GridItem/ConnectionModifiers.vue'
 import { useEditingStore } from '@/stores/editing'
 import { useGridStore } from '@/stores/grid'
 
@@ -106,6 +117,10 @@ const god = computed(() => {
 const addRoom = () => {
   grid.setRoom(createRoom({ purchased: false }), props.x, props.y)
 }
+
+const modifiers = computed(() => {
+  return props.item?.modifiers ?? null
+})
 </script>
 
 <style scoped>
@@ -154,11 +169,13 @@ const addRoom = () => {
 }
 
 .god-name {
-  position: absolute;
-  bottom: var(--spacing-300);
   font-size: 0.875rem;
   color: var(--color);
   font-weight: 700;
+}
+
+.modifiers {
+  display: flex;
 }
 
 .empty,
