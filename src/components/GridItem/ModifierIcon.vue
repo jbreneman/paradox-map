@@ -27,5 +27,6 @@ const src = computed(() => {
 .icon-image {
   width: 100%;
   height: 100%;
+  image-rendering: pixelated;
 }
 </style>
